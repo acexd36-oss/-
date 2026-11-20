@@ -1,204 +1,248 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Химия с нуля</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Concept: учебник-тетрадь для новичка. Спокойный зелёно-серый фон, один акцент (бирюзовый),
-   цвета элементов — как у индикаторных красок. Формулы набраны моноширинным шрифтом. */
+/* Concept: мобильный экран-«дашборд» как в макете Figma: тёмная карточка прогресса с дугой,
+   выбор темы и четыре карточки материалов на мягком сиреневато-голубом фоне. */
 :root{
-  --bg:#F2F7F5;--surface:#FFFFFF;--ink:#10201B;--muted:#4F625B;--line:#D3DFDA;
-  --accent:#0A7B66;--accent-ink:#FFFFFF;--tint:#E2F1EC;
+  --bg:#E8EDF8;--surface:#FFFFFF;--ink:#141B2D;--muted:#7A859B;--line:#DCE3F0;
+  --accent:#0F7F7A;--accent-ink:#FFFFFF;--tint:#E3F1F2;
   --good:#17803F;--good-bg:#DDF3E5;--bad:#B93426;--bad-bg:#FBE4E0;
-  --elec:#E0572B;--nuc:#10201B;--nuc-ink:#FFFFFF;
+  --elec:#E0572B;--nuc:#141B2D;--nuc-ink:#FFFFFF;
+  --hero-a:#18244A;--hero-b:#0C1330;--arc:#74D6CF;--track:#2B3760;--shadow:0 6px 24px rgba(30,45,90,.08);
   --cs:70%;--cl:86%;--cb:70%;
-  --f-d:'Unbounded','Onest',system-ui,sans-serif;
-  --f-b:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-b:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-m:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0C1512;--surface:#142019;--ink:#E5F0EB;--muted:#9AB1A8;--line:#25382F;
-    --accent:#43D6B3;--accent-ink:#04231B;--tint:#18302A;
+    --bg:#0A0F1F;--surface:#151C32;--ink:#E8ECF7;--muted:#98A3BD;--line:#26304D;
+    --accent:#6FD6CF;--accent-ink:#06211F;--tint:#18303A;
     --good:#5FD68B;--good-bg:#173A26;--bad:#FF8A7A;--bad-bg:#40201C;
-    --elec:#FF8A5C;--nuc:#E5F0EB;--nuc-ink:#0C1512;
+    --elec:#FF8A5C;--nuc:#E8ECF7;--nuc-ink:#0A0F1F;
+    --hero-a:#1D2B58;--hero-b:#0E1637;--track:#2D3A66;--shadow:none;
     --cs:40%;--cl:22%;--cb:38%;color-scheme:dark}
 }
 :root[data-theme="dark"]{
-  --bg:#0C1512;--surface:#142019;--ink:#E5F0EB;--muted:#9AB1A8;--line:#25382F;
-  --accent:#43D6B3;--accent-ink:#04231B;--tint:#18302A;
+  --bg:#0A0F1F;--surface:#151C32;--ink:#E8ECF7;--muted:#98A3BD;--line:#26304D;
+  --accent:#6FD6CF;--accent-ink:#06211F;--tint:#18303A;
   --good:#5FD68B;--good-bg:#173A26;--bad:#FF8A7A;--bad-bg:#40201C;
-  --elec:#FF8A5C;--nuc:#E5F0EB;--nuc-ink:#0C1512;
+  --elec:#FF8A5C;--nuc:#E8ECF7;--nuc-ink:#0A0F1F;
+  --hero-a:#1D2B58;--hero-b:#0E1637;--track:#2D3A66;--shadow:none;
   --cs:40%;--cl:22%;--cb:38%;color-scheme:dark}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
-  background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.65;
+  background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:16.5px;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));
   padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:0;
+  padding-block:0;min-height:100vh;
 }
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
 a{color:var(--accent)}
-button{font:inherit;color:inherit;cursor:pointer}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.wrap{max-width:980px;margin:0 auto}
+.shell{max-width:720px;margin:0 auto;padding:20px 0 56px}
 sub{font-size:.72em;line-height:0}
 .fm{font-family:var(--f-m);font-weight:500;white-space:nowrap}
-
-/* header */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
-.brand{font-family:var(--f-d);font-weight:700;font-size:16px;text-decoration:none;color:var(--ink);letter-spacing:-.01em}
-.brand span{color:var(--accent)}
-.pgs{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:10px}
-.bar{width:90px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.up{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* home */
-.hero{padding:48px 0 28px;display:grid;gap:20px}
-.hero h1{font-family:var(--f-d);font-weight:700;font-size:clamp(2.1rem,7vw,3.8rem);line-height:1.08;margin:0;letter-spacing:-.03em;text-wrap:balance}
-.hero p{margin:0;max-width:56ch;font-size:19px;color:var(--muted)}
-.eq{font-family:var(--f-m);font-weight:500;font-size:clamp(1.3rem,4.6vw,2.1rem);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 20px;width:fit-content;max-width:100%;overflow-x:auto;white-space:nowrap}
-.eq b{color:var(--accent);font-weight:500}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px 20px;font-weight:600;text-decoration:none;width:fit-content}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:4px 2px 16px}
+.brand b{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.brand span{font-size:14px;color:var(--muted)}
+.hero{background:linear-gradient(160deg,var(--hero-a),var(--hero-b));border-radius:28px;padding:20px 22px 14px;color:#fff;box-shadow:var(--shadow)}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hero-top h1{margin:0;font-size:17px;font-weight:700}
+.goal{background:transparent;border:0;color:var(--arc);font-weight:700;font-size:14px;padding:4px 2px}
+.gauge{display:block;width:100%;max-width:360px;margin:6px auto 0;height:auto}
+.gt,.gp{fill:none;stroke-width:17;stroke-linecap:round}
+.gt{stroke:var(--track)}.gp{stroke:var(--arc)}
+.gauge text{text-anchor:middle;font-family:var(--f-b)}
+.gn{fill:#fff;font-size:46px;font-weight:800;letter-spacing:-.03em}
+.gs{fill:#B9C3E0;font-size:14px;font-weight:500}
+.gl{fill:#B9C3E0;font-size:12.5px;font-weight:600}
+.goalnote{margin:2px 0 6px;font-size:14px;color:#C9D2EC;text-align:center}
+.sect{margin:26px 4px 10px}
+.sel{position:relative;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.sel .ic{position:absolute;left:16px;color:var(--accent);pointer-events:none}
+.sel .chev{left:auto;right:16px;color:var(--muted)}
+.sel select{appearance:none;-webkit-appearance:none;width:100%;border:0;background:transparent;padding:16px 46px 16px 52px;font-weight:700;font-size:16.5px;border-radius:18px;cursor:pointer;text-overflow:ellipsis}
+.sel select option{color:#141B2D;background:#fff}
+.meta{margin:8px 6px 0;font-size:14px;color:var(--muted);min-height:1.5em}
+.mh{display:flex;justify-content:space-between;align-items:baseline;margin:22px 4px 12px}
+.mh h2{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em}
+.mh span{font-family:var(--f-m);color:var(--muted);font-size:14px}
+.mats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mat{display:flex;flex-direction:column;gap:4px;min-height:132px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px 16px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);position:relative;min-width:0}
+.mat .row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:auto}
+.mat .bub{width:42px;height:42px;border-radius:50%;background:var(--tint);color:var(--accent);display:grid;place-items:center}
+.mat .go{color:var(--muted)}
+.mat b{font-size:16.5px;font-weight:700;line-height:1.25}
+.mat small{color:var(--muted);font-size:13.5px}
+.mat[aria-disabled=true]{opacity:.5;pointer-events:none}
+a.mat:hover{border-color:var(--accent)}
+.hint{display:flex;gap:10px;align-items:flex-start;margin:18px 6px 0;color:var(--muted);font-size:14.5px;line-height:1.5}
+
+/* subpages */
+.pagehead{display:flex;align-items:center;gap:12px;margin:0 0 18px}
+.back{width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);text-decoration:none;box-shadow:var(--shadow);flex:none}
+.pagehead .t{min-width:0}
+.pagehead .t span{display:block;font-size:13px;color:var(--muted)}
+.pagehead .t b{display:block;font-size:19px;font-weight:800;line-height:1.25;letter-spacing:-.01em}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-bottom:14px;min-width:0}
+.panel h2{margin:0 0 6px;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.panel h3{margin:22px 0 6px;font-size:17px;font-weight:700}
+.panel p{margin:0 0 12px;max-width:66ch}
+.panel ul{margin:0 0 14px;padding-left:22px;max-width:66ch}
+.panel li{margin-bottom:6px}
+.lead{font-size:18px;color:var(--muted)}
+.note{background:var(--tint);border-radius:14px;padding:12px 16px;margin:16px 0;max-width:66ch}
+.note .lab{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.note p:last-child{margin:0}
+.ex{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0}
+.ex div{background:var(--bg);border-radius:14px;padding:10px 14px;font-size:15.5px;line-height:1.5}
+.ex b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:2px}
+.eq{font-family:var(--f-m);font-weight:500;background:var(--bg);border-radius:14px;padding:10px 16px;width:fit-content;max-width:100%;overflow-x:auto;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:14px;padding:13px 22px;font-weight:700;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .btn:hover{filter:brightness(1.07)}
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:12px 0 36px}
-.how div{padding:0}
-.how h3{margin:0 0 4px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
-.how p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.55}
-h2.sec{font-family:var(--f-d);font-size:1.4rem;margin:8px 0 16px;letter-spacing:-.02em}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;padding-bottom:56px}
-.card{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink);min-width:0}
-.card:hover{border-color:var(--accent)}
-.card .n{font-family:var(--f-m);font-size:13px;color:var(--muted)}
-.card h3{margin:0;font-family:var(--f-d);font-size:1.02rem;line-height:1.3;letter-spacing:-.01em}
-.card p{margin:0;font-size:15px;color:var(--muted);line-height:1.5;flex:1}
-.chip{display:inline-block;font-size:13px;padding:2px 10px;border-radius:99px;background:var(--tint);color:var(--accent);width:fit-content;font-weight:500}
-.chip.done{background:var(--good-bg);color:var(--good)}
-
-/* lesson */
-.lesson{padding:28px 0 64px;max-width:760px}
-.crumb{font-size:14px;margin-bottom:18px;display:block}
-.lesson h1{font-family:var(--f-d);font-weight:700;font-size:clamp(1.7rem,5.5vw,2.5rem);line-height:1.15;margin:0 0 10px;letter-spacing:-.025em;text-wrap:balance}
-.lead{font-size:19px;color:var(--muted);margin:0 0 28px}
-.lesson h2{font-family:var(--f-d);font-size:1.25rem;margin:36px 0 8px;letter-spacing:-.015em;text-wrap:balance}
-.lesson p{margin:0 0 14px;max-width:68ch}
-.lesson ul{margin:0 0 16px;padding-left:22px;max-width:68ch}
-.lesson li{margin-bottom:6px}
-.note{background:var(--tint);border-radius:12px;padding:14px 18px;margin:20px 0;max-width:68ch}
-.note .lab{display:block;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
-.note p:last-child{margin:0}
-.ex{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
-.ex div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:15.5px;line-height:1.5}
-.ex b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:2px}
+.nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:6px}
 
 /* widgets */
-.widget{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0 8px;min-width:0}
-.widget h3{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:600}
-.widget .hint{font-size:15px;color:var(--muted);margin:0 0 14px}
+.widget{background:var(--bg);border-radius:18px;padding:16px;margin:16px 0;min-width:0}
+.widget h3{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700}
+.widget .wh{font-size:15px;color:var(--muted);margin:0 0 12px}
 input[type=range]{width:100%;accent-color:var(--accent);height:32px}
-.atom-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:20px;align-items:center}
-.atom-grid svg{width:100%;height:auto;max-width:320px}
+.atom-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;align-items:center}
+.atom-grid svg{width:100%;height:auto;max-width:300px}
 .sh{fill:none;stroke:var(--line);stroke-width:1.5}
 .el{fill:var(--accent)}.el.v{fill:var(--elec)}
 .nuc{fill:var(--nuc)}
 .nt{fill:var(--nuc-ink);font-family:var(--f-m);font-size:13px;font-weight:500;text-anchor:middle}
-.big{font-family:var(--f-d);font-size:1.6rem;font-weight:700;margin:0 0 6px;line-height:1.2}
+.big{font-size:1.5rem;font-weight:800;margin:0 0 6px;line-height:1.2}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:15.5px;margin:0}
-.kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:500}
+.kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:600}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);margin-right:3px}
 .dot.v{background:var(--elec)}
 
 .scroll-x{overflow-x:auto;padding-bottom:6px}
-.pt{display:grid;grid-template-columns:repeat(18,minmax(38px,1fr));gap:4px;min-width:760px}
-.cell{--h:0;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1/1;padding:0;border-radius:6px;
-  background:hsl(var(--h) var(--cs) var(--cl));border:1px solid hsl(var(--h) var(--cs) var(--cb));line-height:1;color:var(--ink)}
+.pt{display:grid;grid-template-columns:repeat(18,minmax(38px,1fr));gap:4px;min-width:740px}
+.cell{--h:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50px;padding:2px 0;border-radius:8px;
+  background:hsl(var(--h) var(--cs) var(--cl));border:1px solid hsl(var(--h) var(--cs) var(--cb));line-height:1.1;color:var(--ink)}
 .cell small{font-size:9px;opacity:.75;font-family:var(--f-m)}
 .cell strong{font-family:var(--f-m);font-size:16px;font-weight:500}
+.cell em{display:none;font-style:normal;font-size:10px;font-weight:700;font-family:var(--f-m);color:var(--ink)}
+.pt.val .cell em{display:block}
 .cell[aria-pressed=true]{outline:3px solid var(--ink);outline-offset:1px}
 .cell.dim{opacity:.22}
-.gl{font-size:11px;color:var(--muted);text-align:center;align-self:end}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.gh{font-size:11px;color:var(--muted);text-align:center;align-self:end}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
 .lg{--h:0;display:inline-flex;align-items:center;gap:6px;font-size:13.5px;padding:4px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line)}
 .lg i{width:12px;height:12px;border-radius:4px;background:hsl(var(--h) var(--cs) var(--cl));border:1px solid hsl(var(--h) var(--cs) var(--cb))}
-.lg[aria-pressed=true]{border-color:var(--ink);font-weight:600}
-.det{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center}
-.tile{--h:0;width:96px;height:96px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:hsl(var(--h) var(--cs) var(--cl));border:1px solid hsl(var(--h) var(--cs) var(--cb))}
+.lg[aria-pressed=true]{border-color:var(--ink);font-weight:700}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px;margin:0 0 12px}
+.seg button{border:0;background:transparent;padding:6px 14px;border-radius:9px;font-weight:600;font-size:14.5px;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.det{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 20px;align-items:center}
+.tile{--h:0;width:96px;height:96px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:hsl(var(--h) var(--cs) var(--cl));border:1px solid hsl(var(--h) var(--cs) var(--cb))}
 .tile small{font-family:var(--f-m);font-size:12px}
 .tile strong{font-family:var(--f-m);font-size:34px;font-weight:500;line-height:1.1}
 
-.pick{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
-.pk{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 12px;font-size:15px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.pk{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:7px 12px;font-size:15px}
 .pk[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
 .stepper button{border:0;background:transparent;width:38px;height:38px;font-size:20px;line-height:1}
 .stepper button:hover{background:var(--tint)}
 .stepper b{min-width:32px;text-align:center;font-family:var(--f-m)}
 .formula-big{font-family:var(--f-m);font-weight:500;font-size:clamp(1.9rem,8vw,2.8rem);margin:6px 0 2px;line-height:1.2}
-table.at{border-collapse:collapse;margin:12px 0 4px;font-size:15.5px;width:100%;max-width:460px}
+table.at{border-collapse:collapse;margin:10px 0 4px;font-size:15.5px;width:100%;max-width:480px}
 table.at th,table.at td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line)}
-table.at th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
-table.at td.ok{color:var(--good);font-weight:600}table.at td.no{color:var(--bad);font-weight:600}
-.badge{display:inline-block;font-size:13px;padding:2px 10px;border-radius:99px;background:var(--tint);color:var(--accent);font-weight:500}
-
-.bond{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 14px}
-.ion{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
-.ion .sym{font-family:var(--f-d);font-size:1.7rem;font-weight:700;line-height:1.2}
+table.at th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700}
+table.at td.ok{color:var(--good);font-weight:700}table.at td.no{color:var(--bad);font-weight:700}
+.badge{display:inline-block;font-size:13px;padding:2px 10px;border-radius:99px;background:var(--tint);color:var(--accent);font-weight:600}
+.bond{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 12px}
+.ion{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+.ion .sym{font-size:1.7rem;font-weight:800;line-height:1.2}
 .ion .sym sup{font-size:.55em;color:var(--elec)}
 .ion p{margin:2px 0 0;font-size:14.5px;color:var(--muted);line-height:1.5}
-.msg{font-size:16px;margin:0 0 14px;min-height:3.2em}
-
-.eqn{display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px 12px;margin:6px 0 14px}
+.msg{font-size:16px;margin:0 0 12px;min-height:3.2em}
+.eqn{display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px 12px;margin:6px 0 12px}
 .term{display:flex;flex-direction:column;align-items:center;gap:6px}
 .term .fm{font-size:clamp(1.15rem,4.6vw,1.6rem);line-height:1.2}
 .op{font-family:var(--f-m);font-size:1.4rem;padding-top:2px}
 .preview{font-family:var(--f-m);font-size:1.05rem;color:var(--muted);margin:0 0 10px}
-.res{margin:10px 0 0;padding:10px 14px;border-radius:10px;font-weight:500;font-size:16px}
+.res{margin:10px 0 0;padding:10px 14px;border-radius:12px;font-weight:600;font-size:16px}
 .res.ok{background:var(--good-bg);color:var(--good)}
 .res.no{background:var(--tint);color:var(--ink)}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.acts button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 14px;font-size:15px}
+.acts button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:7px 14px;font-size:15px}
+.vb{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px}
+.vcol{display:flex;flex-direction:column;gap:6px;min-width:0}
+.vcol label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.vcol select{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:600;min-width:0;width:100%}
+.vsteps{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:15.5px}
+.vsteps li{margin:0}
+.vf{font-family:var(--f-m);font-weight:500;font-size:clamp(2rem,9vw,3rem);margin:4px 0;line-height:1.2;color:var(--accent)}
+.vtab{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin:8px 0 0}
+.vtab div{background:var(--bg);border-radius:12px;padding:8px 12px;font-size:14.5px;display:flex;justify-content:space-between;gap:8px}
+.vtab b{font-family:var(--f-m);font-weight:500}
 
 /* quiz */
-.quiz{margin-top:40px}
-.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
-.qt{margin:0 0 10px!important;font-weight:600}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
-.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 14px;font-size:16px;line-height:1.4}
+.q{background:var(--bg);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.qt{margin:0 0 10px!important;font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font-size:16px;line-height:1.4}
 .opt:hover:not(:disabled){border-color:var(--accent)}
-.opt.right{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:600}
+.opt.right{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:700}
 .opt.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
 .opt:disabled{cursor:default}
 .exp{margin:10px 0 0!important;font-size:15.5px;color:var(--muted)}
-.score{font-weight:600;font-size:18px;margin:16px 0 8px!important}
-.nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:28px}
-footer{border-top:1px solid var(--line);padding:20px 0 32px;font-size:14px;color:var(--muted)}
+.score{font-weight:700;font-size:18px;margin:14px 0 8px!important}
+
+/* analysis */
+.arow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.arow:last-child{border-bottom:0}
+.arow b{font-weight:700}
+.arow .sc{font-family:var(--f-m);font-size:14px;color:var(--muted)}
+.meter{grid-column:1/-1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.sumrow{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+.sum{flex:1 1 130px;background:var(--bg);border-radius:16px;padding:12px 14px}
+.sum b{display:block;font-size:26px;font-weight:800;line-height:1.2}
+.sum span{font-size:13.5px;color:var(--muted)}
 
 @media (max-width:620px){
-  body{font-size:16.5px}
   .atom-grid{grid-template-columns:1fr}
   .atom-grid svg{margin:0 auto;display:block}
-  .bond{grid-template-columns:1fr}
-  .pgs .bar{width:56px}
-  .hero{padding-top:32px}
+  .bond,.vb{grid-template-columns:1fr}
+  .panel{padding:16px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<header class="top"><div class="wrap">
-  <a class="brand" href="#home">Химия <span>с нуля</span></a>
-  <div class="pgs"><span id="pgtxt"></span><div class="bar" aria-hidden="true"><i id="pgbar" style="width:0%"></i></div></div>
-</div></header>
-<main class="wrap" id="app"></main>
-<footer><div class="wrap">Учебный проект. Атомные массы округлены, данные для первых 36 элементов.</div></footer>
+<main class="shell" id="app"></main>
 
 <script>
 /* ---------- helpers ---------- */
 const F = s => s.replace(/([A-Za-z)])(\d+)/g, '$1<sub>$2</sub>');
 const fm = s => '<span class="fm">' + F(s) + '</span>';
 const $ = (r, s) => r.querySelector(s);
+const ICON = {
+  doc:'<rect x="5" y="3.5" width="14" height="17" rx="3"/><path d="M9 9h6M9 13h6M9 17h3"/>',
+  book:'<path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5z"/><path d="M5 5.5v15"/><path d="M9 8h6"/>',
+  fx:'<text x="2.5" y="17" font-size="15" font-family="Georgia,serif" font-style="italic" fill="currentColor" stroke="none">fx</text>',
+  chart:'<path d="M4 4v16h16"/><path d="M8 15l4-5 3 3 4-6"/>',
+  arrow:'<path d="M7 17L17 7M9 7h8v8"/>',
+  layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/>',
+  chev:'<path d="M6 9l6 6 6-6"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>'
+};
+const ic = (n,cls='') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICON[n]}</svg>`;
 
 function parseF(s){
   let i = 0;
@@ -217,11 +261,13 @@ function parseF(s){
   return grp();
 }
 
-/* progress (per viewer, optional) */
-const KEY = 'chem0-progress';
-let P = {};
+/* progress and chosen topic (per viewer, optional) */
+const KEY = 'chem0-progress', TKEY = 'chem0-topic';
+let P = {}, topic = -1;
 try { P = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ P = {}; }
+try { const t = parseInt(localStorage.getItem(TKEY),10); if(t>=0 && t<7) topic = t; } catch(e){}
 function saveP(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e){} }
+function saveT(){ try { localStorage.setItem(TKEY, String(topic)); } catch(e){} }
 
 /* ---------- elements 1-36 ---------- */
 const CAT = {
@@ -243,6 +289,11 @@ const EL = [
  ['Mn','Марганец',54.938],['Fe','Железо',55.845],['Co','Кобальт',58.933],['Ni','Никель',58.693],['Cu','Медь',63.546],['Zn','Цинк',65.38],
  ['Ga','Галлий',69.723],['Ge','Германий',72.63],['As','Мышьяк',74.922],['Se','Селен',78.971],['Br','Бром',79.904],['Kr','Криптон',83.798]
 ].map((e,i)=>({z:i+1,s:e[0],n:e[1],m:e[2],c:catOf(i+1)}));
+/* валентности: первая в списке — основная */
+const VAL = [[1],[0],[1],[2],[3],[4,2],[3,4],[2],[1],[0],[1],[2],[3],[4],[3,5],[2,4,6],[1,3,5,7],[0],[1],[2],
+ [3],[4,3,2],[5,4,3,2],[3,2,6],[2,4,7],[2,3],[2,3],[2],[2,1],[2],[3],[4,2],[3,5],[2,4,6],[1,3,5,7],[0]];
+const ROM = ['0','I','II','III','IV','V','VI','VII'];
+const roms = a => a.map(v=>ROM[v]).join(', ');
 function pos(z){
   if(z===1) return [1,1]; if(z===2) return [1,18];
   if(z<=4) return [2,z-2]; if(z<=10) return [2,z+8];
@@ -254,7 +305,7 @@ function shellsOf(z){ const caps=[2,8,8,2]; let r=z; return caps.map(c=>{const t
 /* ---------- widgets ---------- */
 function wAtom(el){
   el.innerHTML = `<h3>Конструктор атома</h3>
-  <p class="hint">Двигайте ползунок: меняется число протонов, и вместе с ним сам элемент. Оранжевые точки — внешние (валентные) электроны.</p>
+  <p class="wh">Двигайте ползунок: меняется число протонов, и вместе с ним сам элемент. Оранжевые точки — внешние (валентные) электроны.</p>
   <label for="zr">Протонов в ядре: <b id="zv"></b></label>
   <input id="zr" type="range" min="1" max="20" value="6">
   <div class="atom-grid"><svg id="asvg" viewBox="0 0 320 320" role="img" aria-label="Модель атома"></svg><div id="ainfo"></div></div>`;
@@ -269,7 +320,6 @@ function wAtom(el){
       h += `<circle class="el${i===sh.length-1?' v':''}" cx="${(160+R[i]*Math.cos(a)).toFixed(1)}" cy="${(160+R[i]*Math.sin(a)).toFixed(1)}" r="6.5"/>`; } });
     h += `<circle class="nuc" cx="160" cy="160" r="32"/><text class="nt" x="160" y="156">${z}p</text><text class="nt" x="160" y="173">${N}n</text>`;
     svg.innerHTML = h;
-    const dots = sh.map((c,i)=>`<span>${'<i class="dot'+(i===sh.length-1?' v':'')+'"></i>'.repeat(0)}</span>`).join('');
     const valence = sh[sh.length-1];
     info.innerHTML = `<p class="big">${e.n} <span class="fm">${e.s}</span></p>
     <dl class="kv">
@@ -284,42 +334,85 @@ function wAtom(el){
   zr.addEventListener('input', draw); draw();
 }
 
-function wTable(el){
+function wTable(el, opt){
+  opt = opt || {};
   el.innerHTML = `<h3>Таблица Менделеева, первые 36 элементов</h3>
-  <p class="hint">Нажмите на клетку, чтобы узнать об элементе. Нажмите на цвет в легенде, чтобы подсветить группу.</p>
+  <p class="wh">Нажмите на клетку, чтобы узнать об элементе. Нажмите на цвет в легенде, чтобы подсветить группу.</p>
+  <div class="seg" role="group" aria-label="Что показывать в клетках"><button data-m="num" aria-pressed="true">Номера</button><button data-m="val" aria-pressed="false">Валентность</button></div>
   <div class="legend" id="lgd"></div>
   <div class="scroll-x"><div class="pt" id="pt"></div></div>
   <div class="det" id="det"></div>`;
-  const lg = $(el,'#lgd'), pt = $(el,'#pt'), det = $(el,'#det');
-  let sel = 11, filt = null;
+  const lg = $(el,'#lgd'), pt = $(el,'#pt'), det = $(el,'#det'), seg = $(el,'.seg');
+  let sel = 11, filt = null, mode = opt.val ? 'val' : 'num';
   lg.innerHTML = Object.entries(CAT).map(([k,v])=>`<button class="lg" style="--h:${v.h}" data-k="${k}" aria-pressed="false"><i></i>${v.n}</button>`).join('');
   let h = '';
-  for(let g=1; g<=18; g++) h += `<div class="gl" style="grid-row:1;grid-column:${g}">${g}</div>`;
+  for(let g=1; g<=18; g++) h += `<div class="gh" style="grid-row:1;grid-column:${g}">${g}</div>`;
   EL.forEach(e=>{ const [r,c] = pos(e.z);
-    h += `<button class="cell" data-z="${e.z}" style="--h:${CAT[e.c].h};grid-row:${r+1};grid-column:${c}" aria-label="${e.n}" aria-pressed="false"><small>${e.z}</small><strong>${e.s}</strong></button>`; });
+    h += `<button class="cell" data-z="${e.z}" style="--h:${CAT[e.c].h};grid-row:${r+1};grid-column:${c}" aria-label="${e.n}" aria-pressed="false"><small>${e.z}</small><strong>${e.s}</strong><em>${ROM[VAL[e.z-1][0]]}</em></button>`; });
   pt.innerHTML = h;
   function upd(){
+    pt.classList.toggle('val', mode==='val');
+    seg.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.m===mode));
     pt.querySelectorAll('.cell').forEach(b=>{ const z=+b.dataset.z; b.setAttribute('aria-pressed', z===sel); b.classList.toggle('dim', !!filt && EL[z-1].c!==filt); });
     lg.querySelectorAll('.lg').forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===filt));
-    const e = EL[sel-1], [r,c] = pos(sel);
-    let val = '';
-    if(c===1||c===2) val = c; else if(c>=13) val = (e.z===2)?2:c-10;
+    const e = EL[sel-1], [r,c] = pos(sel), v = VAL[sel-1];
+    let outer = '';
+    if(c===1||c===2) outer = c; else if(c>=13) outer = (e.z===2)?2:c-10;
+    const vtxt = v[0]===0 ? '0 — почти не образует связей' : (v.length===1 ? ROM[v[0]] : roms(v)+' (чаще '+ROM[v[0]]+')');
     det.innerHTML = `<div class="tile" style="--h:${CAT[e.c].h}"><small>${e.z}</small><strong>${e.s}</strong></div>
     <div><p class="big" style="margin:0">${e.n}</p>
-    <dl class="kv"><dt>Тип</dt><dd>${CAT[e.c].n}</dd><dt>Период</dt><dd>${r} (электронных слоёв: ${r})</dd>
+    <dl class="kv"><dt>Тип</dt><dd>${CAT[e.c].n}</dd><dt>Период</dt><dd>${r} (слоёв: ${r})</dd>
     <dt>Группа</dt><dd>${c}</dd><dt>Атомная масса</dt><dd>${e.m}</dd>
-    ${val!==''?`<dt>Внешних электронов</dt><dd>${val}</dd>`:''}</dl></div>`;
+    <dt>Валентность</dt><dd>${vtxt}</dd>
+    ${outer!==''?`<dt>Внешних электронов</dt><dd>${outer}</dd>`:''}</dl></div>`;
   }
   pt.addEventListener('click', ev=>{ const b=ev.target.closest('.cell'); if(!b) return; sel=+b.dataset.z; upd(); });
   lg.addEventListener('click', ev=>{ const b=ev.target.closest('.lg'); if(!b) return; filt = (filt===b.dataset.k)?null:b.dataset.k; upd(); });
+  seg.addEventListener('click', ev=>{ const b=ev.target.closest('button'); if(!b) return; mode=b.dataset.m; upd(); });
   upd();
+}
+
+/* конструктор формул по валентности */
+const ORD = ['Li','Na','K','Mg','Ca','Zn','Al','Fe','Cu','Si','C','P','N','H','S','Br','Cl','O','F'];
+const METALS = ['Li','Na','K','Mg','Ca','Zn','Al','Fe','Cu'];
+const gcd = (a,b)=>b?gcd(b,a%b):a;
+function wValence(el){
+  const list = ORD.map(s=>EL.find(e=>e.s===s));
+  const opts = list.map(e=>`<option value="${e.s}">${e.n} (${e.s})</option>`).join('');
+  el.innerHTML = `<h3>Конструктор формул по валентности</h3>
+  <p class="wh">Выберите два элемента и их валентности. Формула получится по правилу «крест-накрест».</p>
+  <div class="vb">
+    <div class="vcol"><label for="e1">Элемент 1</label><select id="e1">${opts}</select><label for="v1">Валентность</label><select id="v1"></select></div>
+    <div class="vcol"><label for="e2">Элемент 2</label><select id="e2">${opts}</select><label for="v2">Валентность</label><select id="v2"></select></div>
+  </div><div id="vres"></div>`;
+  const e1=$(el,'#e1'), e2=$(el,'#e2'), v1=$(el,'#v1'), v2=$(el,'#v2');
+  e1.value='Al'; e2.value='O';
+  const fill = (es,vs)=>{ const z=EL.findIndex(e=>e.s===es.value); vs.innerHTML = VAL[z].map(v=>`<option value="${v}">${ROM[v]}</option>`).join(''); };
+  function calc(){
+    const a = e1.value, b = e2.value, va = +v1.value, vb = +v2.value, res = $(el,'#vres');
+    if(a===b){ res.innerHTML = '<p class="res no">Выберите два разных элемента.</p>'; return; }
+    if(METALS.includes(a) && METALS.includes(b)){ res.innerHTML = '<p class="res no">Это два металла: они не образуют такого соединения, формулу составить нельзя.</p>'; return; }
+    let first = a, vf = va, second = b, vs = vb;
+    if(ORD.indexOf(b) < ORD.indexOf(a)){ first = b; vf = vb; second = a; vs = va; }
+    const L = va*vb/gcd(va,vb), nf = L/vf, ns = L/vs;
+    const formula = first + (nf>1?nf:'') + second + (ns>1?ns:'');
+    res.innerHTML = `<ul class="vsteps">
+      <li>1. Валентности: ${fm(first)} — ${ROM[vf]}, ${fm(second)} — ${ROM[vs]}.</li>
+      <li>2. Наименьшее общее кратное чисел ${vf} и ${vs} — это <b>${L}</b>.</li>
+      <li>3. Атомов ${fm(first)}: ${L} ÷ ${vf} = <b>${nf}</b>. Атомов ${fm(second)}: ${L} ÷ ${vs} = <b>${ns}</b>.</li></ul>
+      <div class="vf">${F(formula)}</div>
+      <p style="margin:0;font-size:15px;color:var(--muted)">Проверка: ${nf} × ${vf} = ${ns} × ${vs} = ${L}. Суммы валентностей с обеих сторон равны.</p>`;
+  }
+  e1.onchange = ()=>{ fill(e1,v1); calc(); }; e2.onchange = ()=>{ fill(e2,v2); calc(); };
+  v1.onchange = calc; v2.onchange = calc;
+  fill(e1,v1); fill(e2,v2); calc();
 }
 
 function wFormula(el){
   const list = [['H2O','вода'],['O2','кислород'],['CO2','углекислый газ'],['NH3','аммиак'],['CH4','метан'],['NaCl','поваренная соль'],['H2SO4','серная кислота'],['Ca(OH)2','гашёная известь'],['C6H12O6','глюкоза']];
   let cur = 0, k = 2;
   el.innerHTML = `<h3>Разбор формулы</h3>
-  <p class="hint">Выберите вещество и поменяйте коэффициент. Смотрите, как меняется число атомов.</p>
+  <p class="wh">Выберите вещество и поменяйте коэффициент. Смотрите, как меняется число атомов.</p>
   <div class="pick" id="pk"></div>
   <div>Коэффициент: <span class="stepper"><button id="dn" aria-label="Уменьшить коэффициент">−</button><b id="kv"></b><button id="up" aria-label="Увеличить коэффициент">+</button></span></div>
   <div class="formula-big" id="fb"></div><div id="ft"></div>`;
@@ -345,7 +438,7 @@ function wFormula(el){
 function wBond(el){
   let done = false;
   el.innerHTML = `<h3>Как образуется NaCl</h3>
-  <p class="hint">Нажмите кнопку и посмотрите, что происходит с электронами.</p>
+  <p class="wh">Нажмите кнопку и посмотрите, что происходит с электронами.</p>
   <div class="bond" id="bd"></div><p class="msg" id="bm"></p>
   <div class="acts"><button id="tg"></button></div>`;
   function upd(){
@@ -374,9 +467,8 @@ const RX = [
 ];
 function wBalance(el){
   let ri = 0, co = [];
-  const gcd = (a,b)=>b?gcd(b,a%b):a;
   el.innerHTML = `<h3>Тренажёр: уравняйте реакцию</h3>
-  <p class="hint">Меняйте коэффициенты кнопками − и +. Индексы в формулах менять нельзя. Цель: чтобы атомов каждого элемента слева и справа было поровну.</p>
+  <p class="wh">Меняйте коэффициенты кнопками − и +. Индексы в формулах менять нельзя. Цель: чтобы атомов каждого элемента слева и справа было поровну.</p>
   <div class="pick" id="rp"></div><div class="eqn" id="eqn"></div><p class="preview" id="pv"></p><div id="tb"></div><div id="rs"></div>
   <div class="acts"><button id="hn">Показать ответ</button><button id="rst">Сбросить</button></div>`;
   const rp = $(el,'#rp');
@@ -413,17 +505,17 @@ function wBalance(el){
 
 /* ---------- lessons ---------- */
 const LESSONS = [
-{ t:'Вещества вокруг нас', d:'Что изучает химия, чем вещество отличается от предмета, что такое смесь.', w:null,
+{ t:'Вещества вокруг нас', w:null,
   lead:'Химия изучает вещества и то, как одни вещества превращаются в другие. Начнём с самых простых слов.',
   body:`
-  <h2>Тело и вещество</h2>
+  <h3>Тело и вещество</h3>
   <p><b>Физическое тело</b> — это предмет: гвоздь, стакан, ложка. <b>Вещество</b> — это то, из чего предмет сделан: железо, стекло, алюминий.</p>
   <div class="ex"><div><b>Тела</b>гвоздь, стакан, ложка, монета</div><div><b>Вещества</b>железо, стекло, алюминий, медь</div></div>
   <p>Из одного вещества можно сделать много разных тел. А одно тело может состоять из нескольких веществ.</p>
-  <h2>Чистые вещества и смеси</h2>
+  <h3>Чистые вещества и смеси</h3>
   <p><b>Чистое вещество</b> состоит из одинаковых частиц: дистиллированная вода, поваренная соль, сахар. <b>Смесь</b> — это несколько веществ, просто перемешанных вместе: воздух, морская вода, молоко, гранит.</p>
   <div class="note"><span class="lab">Запомни</span><p>Смесь можно разделить без химических реакций: например, выпарить воду из солёного раствора и получить соль.</p></div>
-  <h2>Физические и химические явления</h2>
+  <h3>Физические и химические явления</h3>
   <p>Когда лёд тает, вода остаётся водой. Это <b>физическое</b> явление: вещество то же, меняется только состояние или форма.</p>
   <p>Когда бумага горит, появляются новые вещества: пепел, углекислый газ, пары воды. Это <b>химическое</b> явление, или <b>химическая реакция</b>.</p>
   <div class="ex"><div><b>Физические</b>таяние льда, кипение воды, измельчение мела</div><div><b>Химические</b>горение, ржавление, скисание молока</div></div>`,
@@ -432,18 +524,18 @@ const LESSONS = [
    {q:'Какое явление химическое?', o:['Таяние льда','Кипение воды','Ржавление железа','Измельчение мела'], a:2, e:'При ржавлении железо превращается в новое вещество, ржавчину. В остальных случаях вещество остаётся прежним.'},
    {q:'Воздух — это…', o:['чистое вещество','смесь газов','один химический элемент','физическое тело'], a:1, e:'В воздухе есть азот, кислород, углекислый газ и другие газы. Их можно разделить без реакций.'}
   ]},
-{ t:'Атом: из чего всё состоит', d:'Протоны, нейтроны, электроны. Соберите атом сами и посмотрите, как он устроен.', w:wAtom,
+{ t:'Атом: из чего всё состоит', w:wAtom,
   lead:'Все вещества состоят из атомов. Атомы очень маленькие, но у них есть чёткое устройство.',
   body:`
-  <h2>Ядро и электроны</h2>
+  <h3>Ядро и электроны</h3>
   <p>В центре атома находится <b>ядро</b>. Вокруг него, по слоям, движутся <b>электроны</b>. В ядре два вида частиц:</p>
   <ul><li><b>протоны</b> — заряд положительный (+1);</li><li><b>нейтроны</b> — заряда нет (0).</li></ul>
   <p>Электроны заряжены отрицательно (−1). В обычном атоме электронов столько же, сколько протонов, поэтому <b>атом в целом нейтрален</b>.</p>
   <div class="note"><span class="lab">Запомни</span><p>Число протонов в ядре определяет элемент. Это число называют <b>порядковым номером</b>. У углерода 6 протонов, у кислорода 8, у натрия 11.</p></div>
-  <h2>Сколько нейтронов?</h2>
+  <h3>Сколько нейтронов?</h3>
   <p>Масса атома почти вся в ядре: протон и нейтрон весят примерно одинаково, электрон почти ничего не весит. Поэтому округлённая атомная масса — это число протонов плюс нейтронов (<b>массовое число</b>).</p>
   <p><b>Нейтроны = массовое число − протоны.</b> Например, у натрия масса 23, протонов 11, значит нейтронов 12.</p>
-  <h2>Электронные слои</h2>
+  <h3>Электронные слои</h3>
   <p>Электроны занимают слои по очереди: на первом помещается до 2, на втором до 8, на третьем сначала тоже до 8. Электроны <b>внешнего слоя</b> определяют, как атом вступает в реакции.</p>`,
   quiz:[
    {q:'Какой заряд у протона?', o:['Положительный','Отрицательный','Нулевой','Зависит от элемента'], a:0, e:'Протон заряжен положительно, электрон отрицательно, нейтрон не заряжен.'},
@@ -451,14 +543,14 @@ const LESSONS = [
    {q:'У натрия номер 11 и массовое число 23. Сколько в атоме нейтронов?', o:['11','23','12','34'], a:2, e:'23 − 11 = 12.'},
    {q:'Сколько электронов на внешнем слое атома хлора (номер 17)?', o:['17','8','1','7'], a:3, e:'Электроны по слоям: 2, 8, 7. Внешний слой содержит 7 электронов.'}
   ]},
-{ t:'Периодическая таблица', d:'Периоды, группы и семейства элементов. Интерактивная таблица для первых 36 элементов.', w:wTable,
-  lead:'Таблица Менделеева — это карта всех элементов. Если научиться её читать, многое о веществе понятно с одного взгляда.',
+{ t:'Периодическая таблица', w:null,
+  lead:'Таблица Менделеева — это карта всех элементов. Если научиться её читать, многое о веществе понятно с одного взгляда. Сама таблица и валентности лежат в карточке «Формулы по теме».',
   body:`
-  <h2>Строки и столбцы</h2>
+  <h3>Строки и столбцы</h3>
   <p>Строки таблицы называют <b>периодами</b>. Столбцы — <b>группами</b>. Элементы выстроены по возрастанию порядкового номера.</p>
   <div class="note"><span class="lab">Запомни</span><p><b>Номер периода = число электронных слоёв</b> в атоме. Натрий стоит в 3 периоде, значит у него 3 слоя.</p></div>
   <p>Для главных групп (1, 2 и 13–18) <b>число внешних электронов</b> легко найти: в группах 1 и 2 оно равно номеру группы, в группах 13–18 — номеру группы минус 10. У хлора (группа 17) семь внешних электронов.</p>
-  <h2>Семьи элементов</h2>
+  <h3>Семьи элементов</h3>
   <p>Элементы одной группы ведут себя похоже, потому что у них одинаково устроен внешний слой.</p>
   <ul><li><b>Щелочные металлы</b> (Li, Na, K) очень активны, легко отдают электрон.</li>
   <li><b>Галогены</b> (F, Cl, Br) активные неметаллы, им не хватает одного электрона.</li>
@@ -469,32 +561,33 @@ const LESSONS = [
    {q:'Какой элемент стоит в одной группе с хлором и похож на него?', o:['Натрий','Кислород','Фтор','Азот'], a:2, e:'Фтор и хлор — галогены (группа 17).'},
    {q:'Какой элемент относится к благородным газам?', o:['Неон','Азот','Кислород','Фтор'], a:0, e:'Неон (Ne) — газ из группы 18.'}
   ]},
-{ t:'Молекулы и химические формулы', d:'Индексы, коэффициенты, скобки. Как по формуле посчитать атомы.', w:wFormula,
+{ t:'Молекулы и химические формулы', w:wFormula,
   lead:'Химики записывают вещества короткими формулами. Формулу можно читать как рецепт: из каких атомов и в каком количестве состоит вещество.',
   body:`
-  <h2>Что такое молекула</h2>
+  <h3>Что такое молекула</h3>
   <p><b>Молекула</b> — это группа атомов, соединённых между собой. Например, молекула воды состоит из двух атомов водорода и одного атома кислорода. Формула воды: ${fm('H2O')}.</p>
-  <h2>Индексы и коэффициенты</h2>
+  <h3>Индексы и коэффициенты</h3>
   <ul><li><b>Индекс</b> — маленькая цифра справа внизу. Он показывает число атомов <i>этого элемента</i> в одной молекуле. В ${fm('H2O')} у водорода индекс 2, у кислорода индекс не написан, значит 1.</li>
   <li><b>Коэффициент</b> — большая цифра перед формулой. Он показывает число <i>молекул</i>. Запись ${fm('3H2O')} значит три молекулы воды: 6 атомов H и 3 атома O.</li></ul>
   <div class="note"><span class="lab">Запомни</span><p>Коэффициент умножает всю формулу. Индекс относится только к элементу слева от него.</p></div>
-  <h2>Скобки</h2>
+  <h3>Скобки</h3>
   <p>Если индекс стоит после скобок, он умножает всё внутри. В ${fm('Ca(OH)2')} один атом кальция, два атома кислорода и два атома водорода.</p>
-  <h2>Простые и сложные вещества</h2>
-  <p>В <b>простом</b> веществе один элемент: ${fm('O2')}, ${fm('Fe')}, ${fm('H2')}. В <b>сложном</b> элементов несколько: ${fm('H2O')}, ${fm('CO2')}, ${fm('NaCl')}.</p>`,
+  <h3>Простые и сложные вещества</h3>
+  <p>В <b>простом</b> веществе один элемент: ${fm('O2')}, ${fm('Fe')}, ${fm('H2')}. В <b>сложном</b> элементов несколько: ${fm('H2O')}, ${fm('CO2')}, ${fm('NaCl')}.</p>
+  <p>Откуда берутся индексы в формулах, объясняет валентность. Её можно потренировать в карточке «Формулы по теме».</p>`,
   quiz:[
    {q:'Сколько всего атомов в одной молекуле '+fm('H2SO4')+'?', o:['3','4','7','6'], a:2, e:'2 атома H + 1 атом S + 4 атома O = 7.'},
    {q:'Сколько атомов водорода в записи '+fm('3H2O')+'?', o:['2','3','5','6'], a:3, e:'3 молекулы по 2 атома водорода = 6.'},
    {q:'Какое вещество простое?', o:[fm('H2O'),fm('CO2'),fm('NaCl'),fm('O2')], a:3, e:'Кислород состоит только из атомов одного элемента.'}
   ]},
-{ t:'Как атомы соединяются', d:'Ионная и ковалентная связь. Почему натрий и хлор образуют соль.', w:wBond,
+{ t:'Как атомы соединяются', w:wBond,
   lead:'Атомы редко существуют поодиночке. Они соединяются, потому что так их внешний электронный слой становится устойчивым.',
   body:`
-  <h2>Почему атомы соединяются</h2>
+  <h3>Почему атомы соединяются</h3>
   <p>Самый устойчивый внешний слой — полный: 8 электронов (у водорода и гелия — 2). Атомы стремятся к такому состоянию и для этого отдают, принимают или делят электроны.</p>
-  <h2>Ионная связь</h2>
+  <h3>Ионная связь</h3>
   <p>Атом металла часто <b>отдаёт</b> электроны, а атом неметалла их <b>принимает</b>. Атом, который отдал электрон, становится положительным <b>ионом</b>, а принявший — отрицательным. Противоположно заряженные ионы притягиваются.</p>
-  <h2>Ковалентная связь</h2>
+  <h3>Ковалентная связь</h3>
   <p>Два неметалла обычно не отдают электроны, а <b>делят пару электронов</b>. В молекуле ${fm('H2')} общая пара принадлежит обоим атомам, и каждому «кажется», что у него 2 электрона, как у гелия. Так же устроены ${fm('O2')}, ${fm('H2O')}, ${fm('CO2')}.</p>
   <div class="note"><span class="lab">Запомни</span><p>Металл + неметалл → чаще всего ионная связь. Неметалл + неметалл → ковалентная связь.</p></div>`,
   quiz:[
@@ -502,35 +595,35 @@ const LESSONS = [
    {q:'Что такое ион Cl⁻?', o:['Атом хлора, отдавший электрон','Атом хлора, принявший электрон','Атом хлора без нейтронов','Молекула хлора'], a:1, e:'Лишний электрон даёт заряд −1.'},
    {q:'Как соединены атомы в молекуле '+fm('H2')+'?', o:['Общей парой электронов','Передачей электрона','Через ионы Na⁺','Они не соединены'], a:0, e:'Это ковалентная связь: два атома делят пару электронов.'}
   ]},
-{ t:'Химические реакции', d:'Признаки реакций, исходные вещества и продукты, закон сохранения массы.', w:null,
+{ t:'Химические реакции', w:null,
   lead:'Химическая реакция — это превращение одних веществ в другие. Атомы при этом не исчезают, а соединяются по-новому.',
   body:`
-  <h2>Реагенты и продукты</h2>
+  <h3>Реагенты и продукты</h3>
   <p>Вещества, которые вступают в реакцию, называют <b>исходными</b> (реагентами). Вещества, которые получаются, — <b>продуктами</b>. Реакцию можно записать словами:</p>
-  <p class="eq" style="font-size:1.1rem;padding:10px 16px">водород + кислород → вода</p>
-  <p>Стрелка читается как «превращается в» или «образуется».</p>
-  <h2>Как заметить, что прошла реакция</h2>
+  <p class="eq">водород + кислород → вода</p>
+  <p style="margin-top:12px">Стрелка читается как «превращается в» или «образуется».</p>
+  <h3>Как заметить, что прошла реакция</h3>
   <ul><li>выделяется газ (пузырьки);</li><li>выпадает осадок или меняется цвет;</li><li>появляется запах;</li><li>выделяются или поглощаются тепло и свет.</li></ul>
   <div class="ex"><div><b>Пример</b>сода + уксус: пузырьки углекислого газа</div><div><b>Пример</b>горение свечи: тепло, свет, новые газы</div></div>
-  <h2>Закон сохранения массы</h2>
+  <h3>Закон сохранения массы</h3>
   <p>Масса веществ до реакции равна массе веществ после. Причина простая: атомы не создаются и не пропадают, они только перегруппировываются.</p>
-  <div class="note"><span class="lab">Запомни</span><p>В любой реакции число атомов каждого элемента слева и справа одинаково. На этом построено всё следующее занятие.</p></div>`,
+  <div class="note"><span class="lab">Запомни</span><p>В любой реакции число атомов каждого элемента слева и справа одинаково. На этом построена тема про уравнения.</p></div>`,
   quiz:[
    {q:'Что из этого указывает на химическую реакцию?', o:['Вещество разломали на части','При смешивании соды с уксусом выделяются пузырьки газа','Металл нагрелся на солнце','Сахар измельчили в порошок'], a:1, e:'Выделение газа означает, что появилось новое вещество.'},
    {q:'Что сохраняется в любой реакции?', o:['Число молекул','Число веществ','Число атомов каждого элемента','Цвет'], a:2, e:'Атомы только перегруппировываются, поэтому масса не меняется.'},
    {q:'В реакции '+fm('2H2 + O2 → 2H2O')+' исходные вещества — это…', o:['вода','водород и кислород','только кислород','вода и кислород'], a:1, e:'Исходные вещества стоят слева от стрелки.'}
   ]},
-{ t:'Уравнения реакций', d:'Как расставить коэффициенты. Тренажёр с шестью задачами.', w:wBalance,
+{ t:'Уравнения реакций', w:wBalance,
   lead:'Уравнение реакции — это запись реакции формулами. Чтобы оно было верным, атомов каждого элемента слева и справа должно быть поровну.',
   body:`
-  <h2>Алгоритм уравнивания</h2>
+  <h3>Алгоритм уравнивания</h3>
   <ul><li>Запишите формулы веществ слева и справа от стрелки.</li><li>Посчитайте атомы каждого элемента слева и справа.</li><li>Расставляйте <b>коэффициенты</b> перед формулами, пока числа не совпадут.</li></ul>
   <div class="note"><span class="lab">Важно</span><p>Менять можно только коэффициенты. Индексы менять нельзя: другой индекс означает другое вещество. ${fm('H2O')} — вода, а ${fm('H2O2')} — пероксид водорода.</p></div>
-  <h2>Пример по шагам</h2>
+  <h3>Пример по шагам</h3>
   <p>Реакция: ${fm('H2 + O2 → H2O')}. Считаем: слева 2 атома O, справа 1. Ставим 2 перед водой: ${fm('H2 + O2 → 2H2O')}. Теперь справа 4 атома H, слева 2. Ставим 2 перед водородом:</p>
-  <p class="eq" style="font-size:1.4rem;padding:10px 16px">${F('2H2 + O2 → 2H2O')}</p>
-  <p>Проверка: слева 4 H и 2 O, справа 4 H и 2 O. Уравнение верное.</p>
-  <h2>Совет</h2>
+  <p class="eq" style="font-size:1.3rem">${F('2H2 + O2 → 2H2O')}</p>
+  <p style="margin-top:12px">Проверка: слева 4 H и 2 O, справа 4 H и 2 O. Уравнение верное.</p>
+  <h3>Совет</h3>
   <p>Начинайте с элемента, который встречается в наименьшем числе веществ. Кислород и водород, которые стоят в простых веществах, уравнивайте в самом конце.</p>`,
   quiz:[
    {q:'Какой коэффициент нужен перед NaCl: 2Na + Cl₂ → ?NaCl', o:['1','2','3','4'], a:1, e:'Слева 2 атома Na и 2 атома Cl, значит справа нужно 2 NaCl.'},
@@ -538,6 +631,10 @@ const LESSONS = [
    {q:fm('CH4 + 2O2 → CO2 + ?H2O')+' Какой коэффициент нужен перед водой?', o:['1','2','3','4'], a:1, e:'Слева 4 атома H (в CH₄). В одной молекуле воды 2 атома H, значит нужно 2 молекулы.'}
   ]}
 ];
+
+/* ---------- points ---------- */
+const GOAL = 50;
+const pts = () => LESSONS.reduce((s,l,i)=> P[i]!==undefined ? s + 2*P[i] + 1 : s, 0);
 
 /* ---------- quiz ---------- */
 function mountQuiz(root, idx, onFinish){
@@ -550,59 +647,134 @@ function mountQuiz(root, idx, onFinish){
     qe.querySelectorAll('.opt').forEach((x,i)=>{ x.disabled = true; if(i===q.a) x.classList.add('right'); else if(i===oi) x.classList.add('wrong'); });
     const ex = $(qe,'.exp'); ex.hidden = false; ex.innerHTML = (ok?'Верно. ':'Не совсем. ') + q.e;
     answered++; if(ok) score++;
-    if(answered===qs.length){
-      const sc = $(root,'.score'); sc.hidden = false;
-      sc.textContent = 'Результат: '+score+' из '+qs.length+(score===qs.length?'. Отлично!':'. Перечитайте урок и попробуйте ещё раз.');
-      onFinish(score, qs.length);
-    }
+    if(answered===qs.length) onFinish(score, qs.length, $(root,'.score'));
   });
 }
 
 /* ---------- views ---------- */
 const app = $(document,'#app');
-function updTop(){
-  const n = LESSONS.filter((_,i)=>P[i]!==undefined).length;
-  $(document,'#pgtxt').textContent = 'Пройдено '+n+' из '+LESSONS.length;
-  $(document,'#pgbar').style.width = (n/LESSONS.length*100)+'%';
+const topicName = i => (i+1)+'. '+LESSONS[i].t;
+const head = (sub, title) => `<div class="pagehead"><a class="back" href="#home" aria-label="Назад к материалам">${ic('back')}</a><div class="t"><span>${sub}</span><b>${title}</b></div></div>`;
+
+function gauge(p){
+  const pct = Math.min(p/GOAL,1)*100, d = 'M40 150A110 110 0 0 1 260 150';
+  return `<svg class="gauge" viewBox="0 0 300 186" role="img" aria-label="Набрано ${p} из ${GOAL} баллов">
+    <path class="gt" d="${d}"/>${p>0?`<path class="gp" d="${d}" pathLength="100" stroke-dasharray="${pct} 100"/>`:''}
+    <text class="gn" x="150" y="122">${p}Б</text><text class="gs" x="150" y="146">уже пройдено</text>
+    <text class="gl" x="40" y="176">0Б</text><text class="gl" x="150" y="176">Цель этапа</text><text class="gl" x="260" y="176">${GOAL}Б</text></svg>`;
 }
+
 function home(){
   document.title = 'Химия с нуля';
+  const mats = [
+    ['quiz','doc','Тест по теме','Проверьте знания'],
+    ['lesson','book','Урок','Разберитесь в теме'],
+    ['formulas','fx','Формулы по теме','Всё самое важное'],
+    ['analysis','chart','Анализ','Ваши результаты']
+  ];
   app.innerHTML = `
-  <section class="hero">
-    <h1>Химия с нуля, без паники</h1>
-    <p>Семь коротких уроков для тех, кто никогда не учил химию. Каждый урок: простое объяснение, интерактив и мини-тест.</p>
-    <div class="eq" aria-label="Пример уравнения реакции">${F('2H2')} + ${F('O2')} <b>→</b> ${F('2H2O')}</div>
-    <a class="btn" href="#lesson-1">Начать с первого урока</a>
+  <div class="brand"><b>Химия с нуля</b><span>7 тем, шаг за шагом</span></div>
+  <section class="hero" aria-label="Общий прогресс">
+    <div class="hero-top"><h1>Общий прогресс</h1><button class="goal" id="goalbtn" aria-expanded="false">Цель</button></div>
+    ${gauge(pts())}
+    <p class="goalnote" id="goalnote" hidden>Цель этапа: ${GOAL}Б. За каждый верный ответ в тесте даётся 2Б, ещё 1Б за пройденный тест.</p>
   </section>
-  <section class="how">
-    <div><h3>Читаем</h3><p>Короткие абзацы, один новый термин за раз.</p></div>
-    <div><h3>Пробуем</h3><p>Собираем атомы, листаем таблицу, уравниваем реакции.</p></div>
-    <div><h3>Проверяем</h3><p>Тест после урока объясняет каждый ответ.</p></div>
-  </section>
-  <h2 class="sec">Программа курса</h2>
-  <div class="cards">${LESSONS.map((l,i)=>`<a class="card" href="#lesson-${i+1}"><span class="n">Урок ${i+1}</span><h3>${l.t}</h3><p>${l.d}</p>${P[i]!==undefined?`<span class="chip done">Пройден · ${P[i]} из ${l.quiz.length}</span>`:'<span class="chip">Не начат</span>'}</a>`).join('')}</div>`;
+  <p class="up sect">Тема обучения</p>
+  <div class="sel">${ic('layers')}<label for="topic" hidden>Тема урока</label>
+    <select id="topic"><option value="-1">Выбрать тему урока</option>${LESSONS.map((l,i)=>`<option value="${i}">${topicName(i)}</option>`).join('')}</select>${ic('chev','chev')}</div>
+  <p class="meta" id="meta"></p>
+  <div class="mh"><h2>Материалы по теме</h2><span>04</span></div>
+  <div class="mats">${mats.map(m=>`<a class="mat" data-k="${m[0]}" aria-disabled="true"><div class="row"><span class="bub">${ic(m[1])}</span><span class="go">${ic('arrow')}</span></div><b>${m[2]}</b><small>${m[3]}</small></a>`).join('')}</div>
+  <p class="hint" id="hint">${ic('info')}<span>Выберите тему — карточки покажут подходящие материалы.</span></p>`;
+  const sel = $(app,'#topic');
+  sel.value = String(topic);
+  const gb = $(app,'#goalbtn');
+  gb.onclick = ()=>{ const n=$(app,'#goalnote'); n.hidden=!n.hidden; gb.setAttribute('aria-expanded', String(!n.hidden)); };
+  function apply(){
+    const on = topic>=0;
+    app.querySelectorAll('.mat').forEach(a=>{
+      if(!on || a.dataset.k==='analysis' && false){ a.removeAttribute('href'); a.setAttribute('aria-disabled','true'); return; }
+      a.setAttribute('aria-disabled','false');
+      a.setAttribute('href', a.dataset.k==='analysis' ? '#analysis' : '#'+a.dataset.k+'-'+(topic+1));
+    });
+    $(app,'#hint').hidden = on;
+    $(app,'#meta').textContent = on ? (P[topic]!==undefined ? 'Тест по этой теме: '+P[topic]+' из '+LESSONS[topic].quiz.length : 'Тест по этой теме ещё не пройден') : '';
+  }
+  sel.onchange = ()=>{ topic = parseInt(sel.value,10); saveT(); apply(); };
+  apply();
 }
-function lesson(i){
-  const l = LESSONS[i];
-  document.title = l.t + ' · Химия с нуля';
-  app.innerHTML = `<article class="lesson">
-    <a class="crumb" href="#home">← Все уроки</a>
-    <span class="chip">Урок ${i+1} из ${LESSONS.length}</span>
-    <h1 style="margin-top:12px">${l.t}</h1>
-    <p class="lead">${l.lead}</p>
-    ${l.w?'<div class="widget" id="wg"></div>':''}
-    ${l.body}
-    <section class="quiz"><h2>Проверьте себя</h2><div id="qz"></div></section>
-    <div class="nav">${i>0?`<a class="btn ghost" href="#lesson-${i}">← Назад</a>`:'<span></span>'}${i<LESSONS.length-1?`<a class="btn" href="#lesson-${i+2}">Следующий урок →</a>`:'<a class="btn" href="#home">К программе</a>'}</div>
-  </article>`;
+
+function lessonView(i){
+  const l = LESSONS[i]; document.title = l.t + ' · Химия с нуля';
+  app.innerHTML = head('Урок '+(i+1)+' из '+LESSONS.length, l.t) + `
+  <article class="panel"><p class="lead">${l.lead}</p>${l.w?'<div class="widget" id="wg"></div>':''}${l.body}</article>
+  <div class="nav"><a class="btn ghost" href="#home">К материалам</a><a class="btn" href="#quiz-${i+1}">Пройти тест</a></div>`;
   if(l.w) l.w($(app,'#wg'));
-  mountQuiz($(app,'#qz'), i, score=>{ if(P[i]===undefined || score>P[i]) P[i]=score; saveP(); updTop(); });
 }
-/* in lessons the interactive block sits before the text; reorder so text comes first on the first screen */
+
+function quizView(i){
+  const l = LESSONS[i]; document.title = 'Тест · '+l.t;
+  app.innerHTML = head('Тест по теме', topicName(i)) + `
+  <section class="panel"><div id="qz"></div></section>
+  <div class="nav"><a class="btn ghost" href="#lesson-${i+1}">Перечитать урок</a><a class="btn" href="#home">К материалам</a></div>`;
+  mountQuiz($(app,'#qz'), i, (score,total,sc)=>{
+    const before = pts(); if(P[i]===undefined || score>P[i]) P[i]=score; saveP();
+    const gain = pts()-before;
+    sc.hidden = false;
+    sc.textContent = 'Результат: '+score+' из '+total+(gain>0?'. Вы получили +'+gain+'Б.':'. Баллы за эту тему уже засчитаны за лучший результат.');
+  });
+}
+
+function formulasView(i){
+  document.title = 'Формулы по теме · Химия с нуля';
+  app.innerHTML = head('Формулы по теме', i>=0?topicName(i):'Таблица и валентность') + `
+  <section class="panel"><div class="widget" id="w1" style="margin-top:0"></div></section>
+  <section class="panel"><h2>Что такое валентность</h2>
+    <p><b>Валентность</b> — это число связей, которые атом образует с другими атомами. Её записывают римской цифрой: I, II, III, IV…</p>
+    <div class="note"><span class="lab">Запомни</span><p>В соединении сумма валентностей атомов с одной стороны равна сумме с другой. Поэтому в воде ${fm('H2O')}: 2 атома H × I = 1 атом O × II.</p></div>
+    <h3>Постоянная валентность</h3>
+    <ul><li>H, Li, Na, K, F — всегда I;</li><li>O, Mg, Ca, Zn, Be — всегда II;</li><li>Al, B — всегда III.</li></ul>
+    <h3>Переменная валентность</h3>
+    <p>У многих элементов валентность зависит от соединения. В названии её указывают в скобках: оксид железа(III) — это ${fm('Fe2O3')}.</p>
+    <div class="vtab" id="vt"></div>
+    <h3>Как найти валентность по таблице</h3>
+    <ul><li><b>Высшая</b> валентность элемента главной подгруппы равна номеру группы (для групп 13–18 вычтите 10). Исключения: у O она II, у F — I.</li>
+    <li><b>Низшая</b> валентность неметалла равна 8 минус номер группы. У серы (группа 16, то есть VI): 8 − 6 = II. У хлора: 8 − 7 = I.</li></ul>
+  </section>
+  <section class="panel"><div class="widget" id="w2" style="margin-top:0"></div></section>
+  <div class="nav"><a class="btn ghost" href="#home">К материалам</a>${i>=0?`<a class="btn" href="#quiz-${i+1}">Пройти тест</a>`:''}</div>`;
+  wTable($(app,'#w1'), {val:true});
+  wValence($(app,'#w2'));
+  const vt = [[1,'H'],[8,'O'],[11,'Na'],[12,'Mg'],[13,'Al'],[6,'C'],[7,'N'],[15,'P'],[16,'S'],[17,'Cl'],[26,'Fe'],[29,'Cu'],[24,'Cr'],[25,'Mn']];
+  $(app,'#vt').innerHTML = vt.map(([z,s])=>`<div><span>${EL[z-1].n}</span><b>${s}: ${roms(VAL[z-1])}</b></div>`).join('');
+}
+
+function analysisView(){
+  document.title = 'Анализ · Химия с нуля';
+  const p = pts(), done = LESSONS.filter((_,i)=>P[i]!==undefined).length;
+  const weak = LESSONS.map((l,i)=>({i,l})).filter(x=>P[x.i]!==undefined && P[x.i]<x.l.quiz.length);
+  const todo = LESSONS.map((l,i)=>({i,l})).filter(x=>P[x.i]===undefined);
+  app.innerHTML = head('Ваши результаты','Анализ') + `
+  <section class="panel"><div class="sumrow">
+    <div class="sum"><b>${p}Б</b><span>из ${GOAL}Б цели этапа</span></div>
+    <div class="sum"><b>${done} из ${LESSONS.length}</b><span>тестов пройдено</span></div></div></section>
+  <section class="panel"><h2>По темам</h2>${LESSONS.map((l,i)=>{ const t=l.quiz.length, s=P[i];
+    return `<div class="arow"><b>${topicName(i)}</b><span class="sc">${s!==undefined?s+' из '+t:'не пройден'}</span><div class="meter"><i style="width:${s!==undefined?s/t*100:0}%"></i></div></div>`; }).join('')}</section>
+  <section class="panel"><h2>Что дальше</h2>
+    ${weak.length?`<p>Стоит повторить, там были ошибки:</p><ul>${weak.map(x=>`<li><a href="#lesson-${x.i+1}">${topicName(x.i)}</a></li>`).join('')}</ul>`:''}
+    ${todo.length?`<p>Ещё не пройдены:</p><ul>${todo.map(x=>`<li><a href="#quiz-${x.i+1}">${topicName(x.i)}</a></li>`).join('')}</ul>`:''}
+    ${(!weak.length && !todo.length)?'<p>Все темы пройдены без ошибок. Отличная работа!</p>':''}</section>
+  <div class="nav"><a class="btn ghost" href="#home">К материалам</a></div>`;
+}
+
 function route(){
-  const m = /^#lesson-(\d+)$/.exec(location.hash);
-  if(m && LESSONS[+m[1]-1]) lesson(+m[1]-1); else home();
-  updTop(); window.scrollTo(0,0);
+  const m = /^#(lesson|quiz|formulas)-(\d+)$/.exec(location.hash);
+  if(m && LESSONS[+m[2]-1]){
+    topic = +m[2]-1; saveT();
+    ({lesson:lessonView, quiz:quizView, formulas:formulasView})[m[1]](topic);
+  } else if(location.hash==='#analysis') analysisView();
+  else home();
+  window.scrollTo(0,0);
 }
 window.addEventListener('hashchange', route);
 route();
